@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp",
-    "test": "mocha --reporter spec ./lib/test/**/*.js"
+    "test": "karma start"
   },
   "babel": {
     "presets": [
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "babel-loader": "^6.2.7",
+    "babel-plugin-__coverage__": "^11.0.0",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "chai": "^3.5.0",

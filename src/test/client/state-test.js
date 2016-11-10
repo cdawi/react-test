@@ -1,8 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
 
 import { createStore, combineReducers } from 'redux';
-import { should } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
 import dogReducer from '../../client/reducers/dog-reducer';
 import { makeBark } from '../../client/actions/dog-actions';
 

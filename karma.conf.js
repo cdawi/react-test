@@ -1,8 +1,6 @@
-// Karma configuration Generated on Fri Nov 04 2016 10:25:04 GMT+0100 (W. Europe
+// Karma configuration Generated on Tue Nov 08 2016 09:18:53 GMT+0100 (W. Europe
 // Standard Time)
-var webpack = require('karma-webpack');
-var webpackConfig = require('./webpack.config.babel');
-webpackConfig.output = undefined;
+
 module.exports = function (config) {
   config.set({
 
@@ -16,39 +14,49 @@ module.exports = function (config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      'src/test/**/*.js',
-      //  'lib/client/**/*.js'
+    files: ['src/test/test-main.js'],
+
+    plugins: [
+      'karma-mocha', 'karma-chai', 'karma-chrome-launcher', 'karma-coverage', 'karma-webpack'
     ],
 
     // list of files to exclude
     exclude: [],
 
-    browsers: ['Chrome'],
-    webpack: webpackConfig,
-    webpackMiddleware: { noInfo: true },
-
-    plugins: [
-      'karma-mocha', 'karma-chai', 'karma-chrome-launcher', 'karma-coverage', webpack
-    ],
-
     // preprocess matching files before serving them to the browser available
     // preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/test/**/*.js': ['webpack'],
-      //'src/(client|shared)/*.js/': ['webpack', /*'coverage'*/]
+      'src/test/test-main.js': ['webpack']
     },
-    // coverageReporter: {
-    //   type: 'html',
-    //   dir: 'coverage/'
-    // },
 
-    // reporter to use possible values: 'dots', 'progress' available reporters:
-    // https://npmjs.org/browse/keyword/karma-reporter
+    webpack: {
+      module: {
+        loaders : [
+          {
+            test: /\.(js|jsx)$/,
+            exclude: /(bower_components|node_modules)/,
+            loader: 'babel',
+            query: {
+              presets: [
+                "latest", "react"
+              ],
+              "plugins": [["__coverage__", { "ignore": "test/" }]]
+            }
+          }
+        ]
+      }
+    },
+
+    // test results reporter to use possible values: 'dots', 'progress' available
+    // reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: [
-      'progress',
-      // 'coverage'
+      'progress', 'coverage'
     ],
+
+    coverageReporter: {
+      type: 'html',
+      dir: '.coverage/'
+    },
 
     // web server port
     port: 9876,
@@ -61,11 +69,14 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    autoWatch: false,
 
     // start these browsers available browser launchers:
-    // https://npmjs.org/browse/keyword/karma-launcher Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
+    // https://npmjs.org/browse/keyword/karma-launcher
+    browsers: ['Chrome'],
+
+    // Continuous Integration mode if true, Karma captures browsers, runs the tests
+    // and exits
     singleRun: true,
 
     // Concurrency level how many browser should be started simultaneous
